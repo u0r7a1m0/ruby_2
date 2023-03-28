@@ -1,28 +1,51 @@
 y, m, d = gets.split.map(&:to_i)
-a,b = gets.split.map(&:to_i)
-one_year_days = 183
+a, b = gets.split.map(&:to_i)
 
-num = y
-while num % 4 != 1 do
-  num += 1
-  puts num
+y_num = y
+while y_num % 4 != 1 do
+    y_num += 1
 end
+year = y_num - y
 
+x = 0
 if m > a
     month = (13 - m) + a
-    puts "残り#{month}ヶ月、#{month * one_year_days}日"
-    p "----------"
+    year = year - 1
+    month.times do
+        if m == 13 || m.even?
+            x = x + 13
+        else # m.odd?
+            x = x + 15
+        end
+    end
+    x = x + 0
 else
-    month = a - m
-    puts "残り#{month}ヶ月、#{month * one_year_days}日"
-    p "----------"
+    month = a.to_i - m.to_i
+    month.times do
+        if m == 13 || m.even?
+            x = x + 13
+        else # m.odd?
+            x = x + 15
+        end
+    end
+    x = x + 2
 end
 
-year = (num - y) * one_year_days
+z = 0
+if m.even? #現在偶数月？
+    if a.even?
+        z = z + (15 - d) - (15 - b)
+    else
+        z = z + (15 - d) - (13 - b)
 
-puts year
+    end
+else
+    if a.even?
+        z = z + (13 - d) - (15 - b)
+    else
+        z = z + (13 - d) - (13 - b)
+    end
+end
+# puts "#{year}年後、#{x + z}日後。"
+puts (year * 181) + (x + z)
 
-
-# 4で割って1余る年だけ開催。
-# 1月、3月、5月、7月、9月、11月、13月：日数が15日
-# 2月、4月、6月、8月、10月、12月：日数が13日
